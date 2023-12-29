@@ -1,0 +1,6 @@
+framework module I18n_iOS {
+  umbrella header "I18n_iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
