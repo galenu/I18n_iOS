@@ -22,7 +22,7 @@ extension I18nLocalizedable {
     public func localized(tableName: String? = nil,
                           bundleId: String? = I18n.shared.defaultBundleId,
                           comment: String = "",
-                          args: [CVarArg]?) -> String {
+                          args: [CVarArg]? = nil) -> String {
         return I18n.localized(localizedKey, bundleId: bundleId, comment: comment, args: args)
     }
     
@@ -36,7 +36,7 @@ extension I18nLocalizedable {
     public func localized(tableName: String? = nil,
                           bundleId: String? = I18n.shared.defaultBundleId,
                           comment: String = "",
-                          args: [CVarArg]?) -> I18nTextDynamicBlock {
+                          args: [CVarArg]? = nil) -> I18nTextDynamicBlock {
         return I18n.localized(localizedKey, bundleId: bundleId, comment: comment, args: args)
     }
 }

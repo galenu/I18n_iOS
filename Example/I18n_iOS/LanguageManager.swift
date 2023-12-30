@@ -38,6 +38,7 @@ public class LanguageManager {
     /// 设置选择的语言，type = nil表示跟随系统
     /// - Parameter type: LanguageType
     public static func setLanguage(type: LanguageType) {
+        print(Bundle.main.path(forResource: type.rawValue, ofType: ".lproj") ?? "0")
         if let path = Bundle.main.path(forResource: type.rawValue, ofType: ".lproj"), let lprojBundle = Bundle(path: path) {
             LanguageManager.shared.type = type
             I18n.updateLanguage(bundleId: LanguageManager.shared.bundleId, bundle: lprojBundle)

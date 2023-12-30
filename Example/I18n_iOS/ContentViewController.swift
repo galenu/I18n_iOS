@@ -22,13 +22,13 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
 
         
-        label.i18n.text = "test_text".localized(args: ["5"])
+        label.i18n.text = "test_text".localized()
         
-        button.i18n.setTitle(.init("test_text"), forState: .normal)
+        button.i18n.setTitle("test_text".localized(), forState: .normal)
         
-        textField.i18n.text = .init("test_text")
+        textField.i18n.text = "test_text".localized()
         
-        textView.i18n.text = .init("test_text")
+        textView.i18n.text = "test_text".localized()
         
     }
 }
