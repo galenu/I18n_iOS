@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import I18n_iOS
 
 class ContentViewController: UIViewController {
 
@@ -21,7 +22,6 @@ class ContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         label.i18n.text = "test_text".localized()
         
         button.i18n.setTitle("test_text".localized(), forState: .normal)

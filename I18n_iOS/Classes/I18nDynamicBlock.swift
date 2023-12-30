@@ -28,14 +28,14 @@ extension I18nDynamicBlock {
         return object.i18nBlocks[selector]
     }
 
-    /// object 执行 selector，设置的值为picker
+    /// object 执行 selector，设置的值为I18nDynamicBlock
     class func setI18nDynamicBlock(_ object : NSObject, _ selector : String, _ block : I18nDynamicBlock?) {
         object.i18nBlocks[selector] = block
         self.performDynamicBlock(object, selector, block)
     }
 
-    /// object 执行 setState(object, sel, value, UIControl.State(rawValue: $0))，设置的值为picker
-    class func makeStateDynamicBlock(_ object : NSObject, _ selector : String, _ block : I18nDynamicBlock?, _ state : UIControl.State) -> I18nDynamicBlock? {
+    /// object 执行 setState(object, sel, value, UIControl.State(rawValue: $0))，设置的值为I18nDynamicBlock
+    class func getStateDynamicBlock(_ object : NSObject, _ selector : String, _ block : I18nDynamicBlock?, _ state : UIControl.State) -> I18nDynamicBlock? {
         var dynamicBlock = block
         if let stateControl = object.i18nBlocks[selector] as? I18nStateDynamicBlock {
             dynamicBlock = stateControl.setDynamicBlock(block, forState: state)
@@ -45,7 +45,7 @@ extension I18nDynamicBlock {
         return dynamicBlock
     }
     
-    /// object 执行 selector，设置的值为picker
+    /// object 执行 selector，设置的值为I18nDynamicBlock
     class func performDynamicBlock(_ object : NSObject, _ selector: String, _ dynamicBlock: I18nDynamicBlock?) {
         guard let dynamicBlock = dynamicBlock else { return }
         

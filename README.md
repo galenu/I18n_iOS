@@ -63,50 +63,76 @@ pod I18n_iOS
 
 1. 在语言切换处用一下代码设置选中语言
 ```
-/// 设置选择的语言，type = nil表示跟随系统
+import I18n_iOS
+
+/// 语言类型
+public enum LanguageType: String, CaseIterable {
+
+    /// 英语
+    case en = "en"
+
+    /// 简体中文
+    case zhHans = "zh-Hans"
+
+    /// 繁体中文
+    case zhHant = "zh-Hant"
+    
+    case fr = "fr"
+    
+    case ja = "ja"
+}
+
+/// 显示语言, 根据语言读取本地化资源
+public class LanguageManager {
+    
+    public static let shared = LanguageManager()
+    
+    var type: LanguageType = .en
+    
+    /// 模块化资源bundle的唯一标识符  不设置默认main,表示只有1个模块
+    public var lprojBundle: Bundle = .main
+
+    /// 设置选择的语言，type = nil表示跟随系统
     /// - Parameter type: LanguageType
-    public static func setLanguage(type: HMLanguageType) {
-        if let path = HMLightModule.resourceBundle.path(forResource: type.rawValue, ofType: ".lproj"), let lprojBundle = Bundle(path: path) {
-            I18n.updateLanguage(bundleId: "main", bundle: lprojBundle)
+    public static func setLanguage(type: LanguageType) {
+        if let path = Bundle.main.path(forResource: type.rawValue, ofType: ".lproj"), let lprojBundle = Bundle(path: path) {
+            LanguageManager.shared.type = type
+            LanguageManager.shared.lprojBundle = lprojBundle
+            I18n.updateLanguage(i18nBundleId: I18n.defaultI18nBundleId, bundle: lprojBundle)
         }
     }
+}
+
 ```
 
-2. 给String添加国际化扩展方法，遵循协议
+2. 给String添加国际化扩展方法
 
 ```swift
-/// 国际化协议默认实现
-extension I18nLocalizedable {
+// MARK: - 默认给String添加国际化方法
+extension String {
     
     /// 国际化文本
     /// - Parameters:
-    ///   - bundleId: 模块化资源bundle的唯一标识符
+    ///   - args: 参数
     /// - Returns: 国际化后的String
-    public func localized(bundleId: String? = HMLanguageManager.shared.bundleId, args: [CVarArg]? = nil) -> String {
-        return I18n.localized(localizedKey, bundleId: bundleId, args: args)
+    func localized(args: [CVarArg]? = nil) -> String {
+        return I18n.localized(self, bundle: LanguageManager.shared.lprojBundle, args: args)
     }
     
     /// 实时刷新国际化文本
     /// - Parameters:
-    ///   - bundleId: 模块化资源bundle的唯一标识符
     ///   - args: 参数
     /// - Returns: 国际化后的String
-    public func localized(bundleId: String? = HMLanguageManager.shared.bundleId, args: [CVarArg]? = nil) -> I18nTextDynamicBlock {
-        return I18n.localized(localizedKey, bundleId: bundleId, args: args)
+    func localized(args: [CVarArg]? = nil) -> I18nTextDynamicBlock {
+        return I18n.localized(self, bundle: { LanguageManager.shared.lprojBundle }, args: args)
     }
 }
 
-extension String: I18nLocalizedable {
-    public var localizedKey: String {
-        return self
-    }
-}
 ```
 3. String调用方式
 - UILabel: 
 ```swift
-label.i18n.text = "no_arguments".localized() // 或 label.text = "no_arguments".localized()
-label.i18n.text = "estimate_time".localized(args: ["5"]) // 或 label.text = "estimate_time".localized(args: ["5"])
+label.i18n.text = "test_text".localized()
 ```
 - UIButton: 
 ```swift
@@ -127,19 +153,23 @@ textView.i18n.text = "test_text".localized()
 
 4. 若使用了R.swift库, 针对StringResource做协议扩展
 ```
-extension StringResource: I18nLocalizedable {
-    public var localizedKey: String {
-        return self.key.description
+// MARK: - 默认给R.swift添加国际化方法
+extension StringResource {
+    
+    /// 国际化文本
+    /// - Parameters:
+    ///   - args: 参数
+    /// - Returns: 国际化后的String
+    func localized(args: [CVarArg]? = nil) -> String {
+        return I18n.localized(self.key.description, bundle: LanguageManager.shared.lprojBundle, args: args)
     }
-}
-extension StringResource1: I18nLocalizedable {
-    public var localizedKey: String {
-        return self.key.description
-    }
-}
-extension StringResource2: I18nLocalizedable {
-    public var localizedKey: String {
-        return self.key.description
+    
+    /// 实时刷新国际化文本
+    /// - Parameters:
+    ///   - args: 参数
+    /// - Returns: 国际化后的String
+    func localized(args: [CVarArg]? = nil) -> I18nTextDynamicBlock {
+        return I18n.localized(self.key.description, bundle: { LanguageManager.shared.lprojBundle }, args: args)
     }
 }
 ```

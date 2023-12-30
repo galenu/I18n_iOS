@@ -14,17 +14,30 @@ public class I18nTextDynamicBlock: I18nDynamicBlock {
     /// - Parameter
     ///   - key: 国际化key
     ///   - tableName: 国际化文件名，默认Localizable.strings
-    ///   - bundleId: 模块化资源bundle的唯一标识符
+    ///   - bundle: .lproj资源的Bundle
     ///   - comment: comment
     ///   - args: 参数
-    public convenience init(_ key: String?,
-                            tableName: String? = nil,
-                            bundleId: String? = nil,
-                            comment: String = "",
-                            args: [CVarArg]? = nil) {
+    convenience init(_ key: String?,
+                     tableName: String? = nil,
+                     bundle: @escaping () -> Bundle,
+                     comment: String = "",
+                     args: [CVarArg]? = nil) {
         self.init {
             guard let key = key else { return ""}
-            return I18n.localized(key, tableName: tableName, bundleId: bundleId, comment: comment, args: args)
+            let bundle = bundle()
+            return I18n.localized(key, tableName: tableName, bundle: bundle, comment: comment, args: args)
+        }
+    }
+    
+    convenience init(_ key: String?,
+                     tableName: String? = nil,
+                     i18nBundleId: String? = nil,
+                     comment: String = "",
+                     args: [CVarArg]? = nil) {
+        self.init {
+            guard let key = key else { return ""}
+            let bundle = I18n.bundleFor(i18nBundleId: i18nBundleId)
+            return I18n.localized(key, tableName: tableName, bundle: bundle, comment: comment, args: args)
         }
     }
 }

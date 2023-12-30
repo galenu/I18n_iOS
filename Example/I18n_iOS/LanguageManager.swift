@@ -33,15 +33,15 @@ public class LanguageManager {
     var type: LanguageType = .en
     
     /// 模块化资源bundle的唯一标识符  不设置默认main,表示只有1个模块
-    public var bundleId: String? = I18n.shared.defaultBundleId
+    public var lprojBundle: Bundle = .main
 
     /// 设置选择的语言，type = nil表示跟随系统
     /// - Parameter type: LanguageType
     public static func setLanguage(type: LanguageType) {
-        print(Bundle.main.path(forResource: type.rawValue, ofType: ".lproj") ?? "0")
         if let path = Bundle.main.path(forResource: type.rawValue, ofType: ".lproj"), let lprojBundle = Bundle(path: path) {
             LanguageManager.shared.type = type
-            I18n.updateLanguage(bundleId: LanguageManager.shared.bundleId, bundle: lprojBundle)
+            LanguageManager.shared.lprojBundle = lprojBundle
+            I18n.updateLanguage(i18nBundleId: I18n.defaultI18nBundleId, bundle: lprojBundle)
         }
     }
 }

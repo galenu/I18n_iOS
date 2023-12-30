@@ -104,8 +104,8 @@ extension NSObject {
     @objc func updateWhenLanguageDidChanged() {
         if i18nHasLanguageChanged {
             i18nHasLanguageChanged = false
-            i18nBlocks.forEach { selector, picker in
-                I18nDynamicBlock.performDynamicBlock(self, selector, picker)
+            i18nBlocks.forEach { selector, block in
+                I18nDynamicBlock.performDynamicBlock(self, selector, block)
             }
         }
     }

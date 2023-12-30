@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'I18n_iOS'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = 'iOS多语言国际化页面实时刷新方案.'
 
 # This description is used to generate tags and improve search results.

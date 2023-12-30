@@ -44,8 +44,8 @@ extension I18nWrapper where Base: UIButton {
     
     /// 语言改变的block, 赋值时会立即调用一次  语言改变时再次调用
     public func setTitle(_ block: I18nTextDynamicBlock?, forState state: UIControl.State) {
-        let statePicker = I18nDynamicBlock.makeStateDynamicBlock(base, "setTitle:forState:", block, state)
-        I18nDynamicBlock.setI18nDynamicBlock(base, "setTitle:forState:", statePicker)
+        let stateBlock = I18nDynamicBlock.getStateDynamicBlock(base, "setTitle:forState:", block, state)
+        I18nDynamicBlock.setI18nDynamicBlock(base, "setTitle:forState:", stateBlock)
     }
 }
 
