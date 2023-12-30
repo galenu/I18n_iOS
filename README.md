@@ -110,19 +110,19 @@ label.i18n.text = "estimate_time".localized(args: ["5"]) // 或 label.text = "es
 ```
 - UIButton: 
 ```swift
-button.i18n.setTitle(.init("test_text"), forState: .normal)
+button.i18n.setTitle("test_text".localized(), forState: .normal)
 ```
 - UITextField: 
 ```swift
-textField.i18n.text = .init("test_text")
+textField.i18n.text = "test_text".localized()
 ```
 - UITextView: 
 ```swift
-textView.i18n.text = .init("test_text")
+textView.i18n.text = "test_text".localized()
 ```
 - UIBarItem: 
 ```swift
-  barItem.i18n.title = .init("test_text")
+  barItem.i18n.title = "test_text".localized()
 ```
 
 4. 若使用了R.swift库, 针对StringResource做协议扩展
